@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>Hybrid ESU-CPU Framework - Dr. Fellouri Concept</title>
+    <style>
+        body { background: #0f172a; color: #f8fafc; font-family: 'Segoe UI', Tahoma, sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .container { max-width: 900px; text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(10, 35px); gap: 6px; background: #1e293b; padding: 15px; border-radius: 12px; border: 2px solid #334155; margin: 20px auto; }
+        .cell { width: 35px; height: 35px; border-radius: 6px; transition: all 0.3s; position: relative; }
+        
+        /* Legend & States */
+        .legend { display: flex; justify-content: center; gap: 15px; margin: 20px 0; font-size: 0.8em; }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .box { width: 15px; height: 15px; border-radius: 3px; }
+        
+        .state-00 { background: #10b981; } /* Stable */
+        .state-noise { background: #f59e0b; } /* Noise */
+        .state-cpu { background: #8b5cf6; box-shadow: 0 0 15px #8b5cf6; border: 2px solid white; } /* CPU Intervention */
+
+        .panel { background: #1e293b; padding: 20px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .status-box { margin-top: 15px; padding: 15px; border-radius: 8px; font-weight: bold; font-size: 1.1em; border-right: 5px solid #3b82f6; background: #0f172a; }
+        .explanation { text-align: right; background: #1e293b; padding: 20px; border-radius: 10px; margin-top: 20px; line-height: 1.6; font-size: 0.9em; border: 1px solid #334155; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>الذكاء المادي: التآزر بين الفطرة (ESU) والقرار (CPU)</h2>
+    <p style="color: #94a3b8;">نموذج تفاعلي لورقة البحث: ARRAY-D-26-00093</p>
+
+    <div class="legend">
+        <div class="legend-item"><div class="box state-00"></div> استقرار (ESU)</div>
+        <div class="legend-item"><div class="box state-noise"></div> ضوضاء (Noise)</div>
+        <div class="legend-item"><div class="box state-cpu"></div> تدخل البروسيسور (CPU)</div>
+    </div>
+
+    <div class="grid" id="esuGrid"></div>
+
+    <div class="panel">
+        <div id="stageTitle" style="font-size: 1.3em; color: #3b82f6; font-weight: bold;">المرحلة الحالية</div>
+        <div id="statusBox" class="status-box">جاري تحليل البيانات الطيفية...</div>
+    </div>
+
+    <div class="explanation">
+        <h3>الشرح العلمي (Scientific Abstract):</h3>
+        <p><strong>1. الفطرة الإلكترونية (ESU Reflex):</strong> تعمل الخلايا الـ 100 كوحدة معالجة موزعة (Distributed Processing). في الحالات الطبيعية والضوضاء الخفيفة، يتم اتخاذ القرار عتادياً بالاعتماد على "الإجماع الطيفي" دون تدخل المعالج.</p>
+        <p><strong>2. سيادة المعالج (CPU Sovereignty):</strong> عندما تتجاوز الضوضاء عتبة الاستقرار (Ambiguity Threshold)، يتدخل المعالج كـ "مشرف" لإيقاف النظام وإعادة تقييم المدخلات، مما يمنع القرارات الخاطئة الناتجة عن التباين التام.</p>
+    </div>
+</div>
+
+<script>
+    const grid = document.getElementById('esuGrid');
+    const statusBox = document.getElementById('statusBox');
+    const stageTitle = document.getElementById('stageTitle');
+    const cells = [];
+    let currentStage = 0;
+
+    for (let i = 0; i < 100; i++) {
+        const div = document.createElement('div');
+        div.className = 'cell state-00';
+        grid.appendChild(div);
+        cells.push(div);
+    }
+
+    const stages = [
+        { title: "حالة الاستقرار المثالي", noise: 2, msg: "الـ ESU تدير الحركة بنجاح (Forward). المعالج في وضع السكون.", color: "#10b981" },
+        { title: "تحمل الضوضاء العشوائية", noise: 25, msg: "الفطرة المادية تتجاهل الضوضاء بناءً على الإجماع (Consensus).", color: "#f59e0b" },
+        { title: "التباين التام (Ambiguity)", noise: 85, msg: "فقدان الإجماع المادي.. إرسال نبضة استغاثة للبروسيسور.", color: "#f43f5e" },
+        { title: "التدخل السيادي (CPU Mode)", noise: 100, cpu: true, msg: "البروسيسور يوقف النظام فوراً (Emergency Stop) لإعادة المعايرة.", color: "#8b5cf6" }
+    ];
+
+    function runAutopilot() {
+        const stage = stages[currentStage];
+        stageTitle.innerText = stage.title;
+        stageTitle.style.color = stage.color;
+        statusBox.innerText = stage.msg;
+        statusBox.style.borderRightColor = stage.color;
+
+        cells.forEach((cell, i) => {
+            const rand = Math.random() * 100;
+            if (stage.cpu) {
+                cell.className = 'cell state-cpu';
+            } else if (rand < stage.noise) {
+                cell.className = 'cell state-noise';
+            } else {
+                cell.className = 'cell state-00';
+            }
+        });
+
+        currentStage = (currentStage + 1) % stages.length;
+    }
+
+    setInterval(runAutopilot, 3500);
+    runAutopilot();
+</script>
+
+</body>
+</html>
